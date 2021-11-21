@@ -1,5 +1,3 @@
-const { stdin, stdout, stderr, exit } = require('process');
-const process = require('process')
 const { constants } = require('fs')
 const { access } = require('fs/promises')
 
@@ -24,7 +22,6 @@ function checkFileExists(readline) {
                 createError('no such file', flagValue)
             }
         }
-
     }
 }
 
@@ -42,6 +39,7 @@ function validateConfig(configString) {
     const variations = ["C1", "C0", "A", "R1", "R0"]
     return configString.split('-').every(el => variations.includes(el))
 }
+exports.validateConfig = validateConfig
 
 function checkNoFlagsDuplicate(readline) {
     const flagsCount = {
@@ -68,17 +66,17 @@ class ValidationError extends Error {
 }
 
 function createError(description, fileName) {
+    let error
     if (description === 'missing config') {
         throw new ValidationError('config flag is required')
     } else if (description === 'invalid config') throw new ValidationError('Config option accept only these operators ["C1", "C0", "A", "R1", "R0"]')
     else if (description === 'c flag is duplicated') throw new ValidationError('--config flag is duplicated')
     else if (description === 'i flag is duplicated') throw new ValidationError('--input flag is duplicated')
     else if (description === 'o flag is duplicated') throw new ValidationError('--output flag is duplicated')
-    else if (description === 'no such file') throw new ValidationError(`no such file or directory ${fileName}`)
+    else if (description === 'no such file') throw new ValidationError(`no such file or directory`)
 
-
-    // stderr.write(error.message)
-    // process.exit(1)
+    //     stderr.write(error.message)
+    //     process.exit(1)
 }
 
 exports.validation = function (readline) {

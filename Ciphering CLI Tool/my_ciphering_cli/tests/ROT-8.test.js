@@ -21,7 +21,7 @@ describe('return correct letters', () => {
     }
     )
 
-    const notLetters = '12345!@#$%^&*()-+'
+    const notLetters = '12345!@#$%^&*()-+_'
 
     test('pass for non-letters', () => {
         expect(rot8Cipher(notLetters, 'R1')).toBe(notLetters)

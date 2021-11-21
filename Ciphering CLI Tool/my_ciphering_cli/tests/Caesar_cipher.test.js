@@ -18,8 +18,8 @@ describe('Ceaser cipher tests', () => {
         expect(caesarCipher(lowerCaseLetters, 'C1')).toBe('bcdefghijklmnopqrstuvwxyza')
     })
     test('return correct value if not a letter', () => {
-        expect(caesarCipher("12345", 'C1')).toBe("12345")
-        expect(caesarCipher("12345", 'C0')).toBe("12345")
+        expect(caesarCipher("12345_", 'C1')).toBe("12345_")
+        expect(caesarCipher("12345_", 'C0')).toBe("12345_")
     })
 
 })

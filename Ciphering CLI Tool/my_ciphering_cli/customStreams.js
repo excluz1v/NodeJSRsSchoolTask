@@ -19,8 +19,6 @@ class ReadStream extends Readable {
                 callback();
             }
         });
-
-
     }
     _read(n) {
         const buf = Buffer.alloc(n);
@@ -31,8 +29,6 @@ class ReadStream extends Readable {
                 this.push(bytesRead > 0 ? buf.slice(0, bytesRead) : null);
             }
         });
-
-
     }
     _destroy(err, callback) {
         if (this.fd) {

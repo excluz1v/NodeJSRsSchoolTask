@@ -1,7 +1,7 @@
-const { validation, ValidationError } = require('../validate')
+const { validation, ValidationError, validateConfig } = require('../validate')
 
 
-//Error Scenario 
+//Error Scenarios
 describe("Error scenarios", () => {
 
     test("User doesn't pass -c or --config argument", () => {
@@ -41,8 +41,17 @@ describe("Error scenarios", () => {
         expect(() => {
             validation(readline)
         }).toThrowError(new ValidationError('Config option accept only these operators ["C1", "C0", "A", "R1", "R0"]'))
+    })
 
+    test("User passes corrent symbols in argument for --config", () => {
+        expect(validateConfig('C1-C0-A-R1')).toEqual(true)
+    })
+
+    test("file input does not exist", () => {
+        const readline = ['-i', '../../input.txtt', '-o', '../../output.txt', '-c', 'C1-C1']
+        expect(() => {
+            validation(readline)
+        }).toThrowError(new ValidationError('no such file or directory'))
     })
 }
 )
-
