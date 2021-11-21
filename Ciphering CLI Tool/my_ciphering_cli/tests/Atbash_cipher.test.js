@@ -8,6 +8,13 @@ describe('return correct letters', () => {
         expect(atbashCipher(uppercaseLetters)).toBe(reverse)
     }
     )
+    const lowerCaseLetters = uppercaseLetters.toLocaleLowerCase()
+    const reverseLower = lowerCaseLetters.split('').reverse().join('')
+
+    test("pass for upperCase letters", () => {
+        expect(atbashCipher(lowerCaseLetters)).toBe(reverseLower)
+    }
+    )
 
     const notLetters = '12345!@#$%^&*()-+'
 
