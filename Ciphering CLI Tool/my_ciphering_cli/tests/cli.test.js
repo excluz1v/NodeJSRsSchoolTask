@@ -1,8 +1,8 @@
 const { exec } = require('child_process');
 
 
-//Success scenarios
-describe('Success scenarios', () => {
+//Success scenario
+describe('Success scenario', () => {
 
     test('Take cipher usage scenarios from first task description usage examples.', () => {
         exec(

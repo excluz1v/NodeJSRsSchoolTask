@@ -43,10 +43,6 @@ describe("Error scenarios", () => {
         }).toThrowError(new ValidationError('Config option accept only these operators ["C1", "C0", "A", "R1", "R0"]'))
     })
 
-    test("User passes corrent symbols in argument for --config", () => {
-        expect(validateConfig('C1-C0-A-R1')).toEqual(true)
-    })
-
     test("file input does not exist", () => {
         const readline = ['-i', '../../input.txtt', '-o', '../../output.txt', '-c', 'C1-C1']
         expect(() => {
@@ -55,3 +51,13 @@ describe("Error scenarios", () => {
     })
 }
 )
+
+//Success Scenario
+describe("Error scenarios", () => {
+    test("User passes corrent symbols in argument for --config", () => {
+        expect(validateConfig('C1-C0-A-R1')).toEqual(true)
+    })
+    test("User passes corrent symbols in argument for --config", () => {
+        expect(validateConfig('C1-C0-A-R1-B-C-D-C5')).toEqual(false)
+    })
+})
