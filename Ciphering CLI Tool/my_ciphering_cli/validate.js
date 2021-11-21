@@ -1,16 +1,16 @@
 const { stdin, stdout, stderr, exit } = require('process');
 const process = require('process')
-const { constants, read } = require('fs')
+const { constants } = require('fs')
 const { access } = require('fs/promises')
 
 
-async function checkFileExists(readline) {
+function checkFileExists(readline) {
     let flagValue
     for (let i = 0; i < readline.length; i++) {
         if (readline[i] === '-i' || readline[i] === '--input') {
             flagValue = readline[i + 1]
             try {
-                await access(flagValue, constants.F_OK && constants.R_OK)
+                access(flagValue, constants.F_OK && constants.R_OK)
                 options.input = flagValue
             } catch (error) {
                 createError('no such file', flagValue)
@@ -18,7 +18,7 @@ async function checkFileExists(readline) {
         } else if (readline[i] === '-o' || readline[i] === '--output') {
             flagValue = readline[i + 1]
             try {
-                await access(flagValue, constants.F_OK && constants.W_OK)
+                access(flagValue, constants.F_OK && constants.W_OK)
                 options.output = flagValue
             } catch (error) {
                 createError('no such file', flagValue)
@@ -63,26 +63,26 @@ function checkNoFlagsDuplicate(readline) {
 class ValidationError extends Error {
     constructor(message) {
         super(message);
+        this.name = this.constructor.name
     }
 }
 
 function createError(description, fileName) {
-    let error
     if (description === 'missing config') {
-        error = new ValidationError('config flag is required')
-    } else if (description === 'invalid config') error = new ValidationError('Config option accept only these operators ["C1", "C0", "A", "R1", "R0"]')
-    else if (description === 'c flag is duplicated') error = new ValidationError('--config flag is duplicated')
-    else if (description === 'i flag is duplicated') error = new ValidationError('--input flag is duplicated')
-    else if (description === 'o flag is duplicated') error = new ValidationError('--output flag is duplicated')
-    else if (description === 'no such file') error = new ValidationError(`no such file or directory ${fileName}`)
-    else if (description === 'no such file') error = new ValidationError(`file ${fileName} is not exist OR you have restricted access to the file`)
+        throw new ValidationError('config flag is required')
+    } else if (description === 'invalid config') throw new ValidationError('Config option accept only these operators ["C1", "C0", "A", "R1", "R0"]')
+    else if (description === 'c flag is duplicated') throw new ValidationError('--config flag is duplicated')
+    else if (description === 'i flag is duplicated') throw new ValidationError('--input flag is duplicated')
+    else if (description === 'o flag is duplicated') throw new ValidationError('--output flag is duplicated')
+    else if (description === 'no such file') throw new ValidationError(`no such file or directory ${fileName}`)
 
-    stderr.write(error.message)
-    process.exit(1)
+
+    // stderr.write(error.message)
+    // process.exit(1)
 }
 
-exports.validation = async function (readline) {
-    await checkConfigIsExist(readline)
+exports.validation = function (readline) {
+    checkConfigIsExist(readline)
 }
 const options = {
     "input": 'stdin',
@@ -90,4 +90,4 @@ const options = {
     "config": ''
 }
 exports.options = options
-
+exports.ValidationError = ValidationError
